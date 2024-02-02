@@ -1,6 +1,5 @@
-# pipeline-demo
-Instructions for this demo are provided in this article -> https://medium.com/@anna.jeanette.b/how-to-create-a-ci-cd-pipeline-for-amazon-ecs-with-jenkins-and-docker-ba6a016683a1
-The files used for the pipeline demo are as follows:
+# sample nodejs application for pipeline
+The files used for the sample nodejs app are as follows:
   1. src/test/server.test.js - Test script. It tests the application by making an API call to it.
   2. src/server.js - Defines the application
   3. Dockerfile - Lists actions Docker takes to build the image
