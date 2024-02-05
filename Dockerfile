@@ -1,5 +1,5 @@
 #Base Image node:18.17.1-alpine
-FROM node:18.17.1-alpine
+FROM --platform=linux/amd64 node:18.17.1-alpine
 
 
 #Set working directory to /app
@@ -22,7 +22,7 @@ RUN npm install
 COPY . ./
 
 #Expose port 3000
-EXPOSE 5000
+EXPOSE 3000
 
 #Start the app
 CMD ["node", "./src/server.js"]
