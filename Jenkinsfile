@@ -3,7 +3,7 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID="085391393117"
         AWS_DEFAULT_REGION="ap-southeast-2"
-	    CLUSTER_NAME="Prod-ECS-Cluster-JenkinsASG"
+	    CLUSTER_NAME="Prod-ECS-Cluster-Jenkins"
 	    SERVICE_NAME="sample-nodejs-web-service"
 	    TASK_DEFINITION_NAME="sample-nodejs-webserver-td"
 	    DESIRED_COUNT="1"
@@ -12,7 +12,7 @@ pipeline {
         IMAGE_TAG="${env.BUILD_ID}"
         //Do not edit REPOSITORY_URI.
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
-	    registryCredential = "jenkins-access-to-aws"
+	    registryCredential = "awscreds"
 	    JOB_NAME = "sample-nodejs-pipeline"
 	    TEST_CONTAINER_NAME = "${JOB_NAME}-test-server"
     
