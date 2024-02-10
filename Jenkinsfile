@@ -1,17 +1,17 @@
 pipeline {
     agent any
     environment {
-        AWS_ACCOUNT_ID="085391393117"
-        AWS_DEFAULT_REGION="ap-southeast-2"
+      AWS_ACCOUNT_ID="085391393117"
+      AWS_DEFAULT_REGION="ap-southeast-2"
 	    CLUSTER_NAME="Prod-ECS-Cluster-Jenkins"
 	    SERVICE_NAME="sample-nodejs-web-service"
 	    TASK_DEFINITION_NAME="sample-nodejs-webserver-td"
 	    DESIRED_COUNT="1"
-        IMAGE_REPO_NAME="sample-nodejs-app"
-        //Do not edit the variable IMAGE_TAG. It uses the Jenkins job build ID as a tag for the new image.
-        IMAGE_TAG="${env.BUILD_ID}"
-        //Do not edit REPOSITORY_URI.
-        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+      IMAGE_REPO_NAME="sample-nodejs-app"
+      //Do not edit the variable IMAGE_TAG. It uses the Jenkins job build ID as a tag for the new image.
+      IMAGE_TAG="${env.BUILD_ID}"
+      //Do not edit REPOSITORY_URI.
+      REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
 	    registryCredential = "awscreds"
 	    JOB_NAME = "sample-nodejs-pipeline"
 	    TEST_CONTAINER_NAME = "${JOB_NAME}-test-server"
@@ -24,7 +24,6 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI}
           dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
         }
       }
@@ -38,10 +37,9 @@ pipeline {
 
     // Uploading Docker image into AWS ECR
     stage('Releasing') {
-     steps{  
-         script {
-			docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {
-                    	dockerImage.push()
+      steps{  
+        script {
+			      docker.withRegistry("https://" + REPOSITORY_URI, "ecr:${AWS_DEFAULT_REGION}:" + registryCredential) {dockerImage.push()
             }
          }
        }
@@ -49,11 +47,11 @@ pipeline {
 
     // Update task definition and service running in ECS cluster to deploy
     stage('Deploy') {
-     steps{
+      steps{
             withAWS(credentials: registryCredential, region: "${AWS_DEFAULT_REGION}") {
                 script {
-			sh "chmod +x -R ${env.WORKSPACE}"
-			sh './script.sh'
+			                  sh "chmod +x -R ${env.WORKSPACE}"
+			                  sh './script.sh'
                 }
             } 
          }
